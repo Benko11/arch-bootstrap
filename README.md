@@ -341,6 +341,12 @@ PATH="$HOME/.local/bin:$PATH"
 export npm_config_prefix="$HOME/.local"
 ```
 
+### Wallpapers
+
+```
+git clone https://gitea.com/benko11/wallpapers
+```
+
 ### Graphical setup
 
 At long last, we are now ready to tackle the GUI part of the setup. This is customized for my currently used hardware:
@@ -376,4 +382,24 @@ Next, I make sure to update the `.xinitrc` file:
 ...
 #exec xterm ...
 exec startplasma-x11
+```
+
+### Touchpad settings
+
+Make sure the touchpad works properly.
+
+```
+sudo ln -s /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf
+
+[/etc/X11/xorg.conf.d/40-libinput.conf]
+Section "InputClass"
+    Identifier "libinput touchpad catchall"
+    MatchIsTouchpad "on"
+    MatchDevicePath "/dev/input/event*"
+    Option "Tapping" "on"
+    Option "ClickMethod" "clickfinger"
+    Option "NaturalScrolling" "true"
+    Driver "libinput"
+EndSection
+
 ```

@@ -245,6 +245,15 @@ fail_interval = 900
 unlock_time = 3600
 ```
 
+I am going to disable the annoying PC speakers:
+
+```
+# rmmod pcspkr
+
+[/etc/modprobe.d/nobeep.conf]
+blacklist pcspkr
+```
+
 ### Paru
 
 I leave the `root` user, and sign in to the newly created one. Inside, I install the `paru` package.

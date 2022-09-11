@@ -77,7 +77,7 @@ mount /dev/root_partition /mnt
 Many packages are important to be able to bootstrap my new Arch install:
 
 ```
-pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode
+pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g
 ```
 
 Afterwards, I generate the `fstab` file:
@@ -101,7 +101,11 @@ ln -sf /usr/share/zoneinfo/Europe/Bratislava /etc/localtime
 hwclock --systohc
 ```
 
-For localization, I create the `/etc/locale.gen`, where I uncomment `UTF-8` lines with `en-US` or `en-GB`. To generate them, I run `locale-gen`.
+For localization, I edit the `/etc/locale.gen`, where I uncomment `UTF-8` lines with `en-US` or `en-GB`. To generate them, I run:
+
+```
+locale-gen
+```
 
 I create the `/etc/locale.conf` file with the contents:
 
@@ -121,7 +125,11 @@ To identify the device on the network, I set up the hostname in the file `/etc/h
 Benko11
 ```
 
-I set up the root password with `passwd`.
+I set up the root password with:
+
+```
+passwd
+```
 
 Then I install and configure the bootloader:
 

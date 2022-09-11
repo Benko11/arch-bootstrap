@@ -77,7 +77,7 @@ mount /dev/root_partition /mnt
 Many packages are important to be able to bootstrap my new Arch install:
 
 ```
-pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g
+pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git
 ```
 
 Afterwards, I generate the `fstab` file:
@@ -144,4 +144,51 @@ Everything is set up properly for the next boot:
 exit
 umount -R /mnt
 reboot
+```
+
+## Post-install
+
+We are now able to boot into Arch Linux, and use the `root` user for our tinkering. We do not have any other users or GUI installed.
+
+### Connect to the Internet
+
+Once again, we need to connect to the Internet. We do this by firstly enabling the `NetworkManager` service:
+
+```
+systemctl enable NetworkManager.service
+systemctl start NetworkManager.service
+```
+
+Then I use `wpa_supplicant`:
+
+```
+wpa_cli
+> add_network
+> set_network 0 ssid "Mordecai and Rigby"
+> set_network 0 psk "password"
+> enable_network 0
+> save_config
+> q
+```
+
+Then I enter `nmtui` and connect to the network.
+
+Afterwards, I set up `git`:
+
+```
+git config --global user.name "Benjamin Bergstrom"
+git config --global user.email "my.email@gmail.com"
+git config --global init.defaultBranch main
+```
+
+Then I clone this document:
+
+```
+git clone https://github.com/benko11/arch-bootstrap
+```
+
+Next step is installing Oh My Zsh:
+
+```
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```

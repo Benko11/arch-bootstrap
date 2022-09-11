@@ -1,6 +1,6 @@
 # Arch Bootstrap
 
-These are the scripts I use during my Arch installation to set up my computer just the way I'd like.
+This file describes the procedure I take during my Arch installations to set up my computer just the way I'd like. Inspiration is garnered mainly from Arch Wiki and other Internet sources.
 
 ## Preliminary setup
 
@@ -77,7 +77,7 @@ mount /dev/root_partition /mnt
 Many packages are important to be able to bootstrap my new Arch install:
 
 ```
-pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git
+pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light
 ```
 
 Afterwards, I generate the `fstab` file:
@@ -173,6 +173,8 @@ wpa_cli
 
 Then I enter `nmtui` and connect to the network.
 
+### Git and the documentation
+
 Afterwards, I set up `git`:
 
 ```
@@ -187,8 +189,182 @@ Then I clone this document:
 git clone https://github.com/benko11/arch-bootstrap
 ```
 
-Next step is installing Oh My Zsh:
+### Oh My Zsh!
+
+Next step is installing Oh My Zsh (run either of the lines):
 
 ```
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+### Sudo Privileges and a Regular User
+
+I edit the `/etc/sudoers` file and uncomment the line with the `wheel`. To save in Vim, I apply `w!` (it will work under root).
+
+I create a regular user:
+
+```
+useradd -m -G wheel,network -s /usr/bin/zsh benko11
+passwd benko11
+```
+
+### Programme Configuration
+
+Staying in the root user, I enable parallel downloads for Pacman by editing `/etc/pacman.conf` and uncommenting the line:
+
+```
+ParallelDownloads = 5
+```
+
+I want to disable hiding boot messages after login shows up:
+
+```
+mkdir /etc/systemd/system/getty@tty1.service.d
+vim /etc/systemd/system/getty@tty1.service.d/noclear.conf
+```
+
+In the newly created file I add:
+
+```
+[Service]
+TTYVTDisallocate=no
+```
+
+I then make sure to enforce a delay between failed login attempts in file `/etc/pam.d/system-login` (10s):
+
+```
+auth optional pam_faildelay.so=10000000
+```
+
+I then edit the `/etc/security/faillock.conf` file:
+
+```
+deny = 5
+fail_interval = 900
+unlock_time = 3600
+```
+
+### Paru
+
+I leave the `root` user, and sign in to the newly created one. Inside, I install the `paru` package.
+
+```
+git clone https://aur.archlinux.org/paru
+cd paru
+makepkg -si
+cd
+rm -rf paru
+```
+
+### Dev programmes
+
+```
+sudo pacman -S mariadb php nodejs npm postgresql sqlite
+```
+
+Configuring MariaDB (change the root password, disable remote access):
+
+```
+# mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+# systemctl enable mariadb.service
+# systemctl start mariadb.service
+# mysql_secure_installation
+```
+
+Configuring PostreSQL:
+
+```
+sudo chattr /var/lib/postgres/data
+sudo -iu postgres
+initdb -D /var/lib/postgres/data
+```
+
+Install and configure MongoDB:
+
+```
+paru mongodb-bin
+sudo systemctl enable mongodb.service
+sudo systemctl start mongodb.service
+```
+
+Configuring PHP:
+
+```
+[/etc/php/php.ini]
+date.timezone = Europe/Bratislava
+...
+display_errors = On
+```
+
+Enable the following extensions (MongoDB doesn't need to be explicitly loaded):
+
+```
+extension=gd
+extension=mysqli
+extension=pdo_mysql
+extension=pdo_pgsql
+extension=pdo_sqlite
+extension=pgsql
+extension=sqlite3
+```
+
+Enable XDebug:
+
+```
+sudo pacman -S xdebug
+
+[/etc/php/conf.d/xdebug.ini]
+zend_extension=xdebug
+```
+
+Install the extensions:
+
+```
+sudo pacman -S php-pgsql php-sqlite php-gd
+```
+
+We are going to enable global package installs in NodeJS for the current user:
+
+```
+[~/.zshrc]
+PATH="$HOME/.local/bin:$PATH"
+export npm_config_prefix="$HOME/.local"
+```
+
+### Graphical setup
+
+At long last, we are now ready to tackle the GUI part of the setup. This is customized for my currently used hardware:
+
+```
+sudo pacman -S xorg-server xf86-video-amdgpu xorg-xinit
+cp /etc/X11/xinit/xinitrc ~/.xinitrc
+```
+
+Now we are going to install the K Desktop Enviroment (select Noto Fonts, and `eng` option):
+
+```
+sudo pacman -S plasma
+sudo pacman -S noto-fonts
+sudo pacman -S kde-applications
+```
+
+(`xorg-xinit` enables the `startx` command.)
+
+```
+sudo pacman -S sddm
+sudo systemctl enable sddm.service
+```
+
+Preview the `/usr/lib/sddm/sddm.conf.d/default.conf` file.
+
+Next, I make sure to update the `.xinitrc` file:
+
+```
+#tvm &
+#xclock -geometry 50x50-1+1 &
+#xclock -geometry 80x50+494+51 &
+...
+#exec xterm ...
+exec startplasma-x11
 ```

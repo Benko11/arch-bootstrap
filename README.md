@@ -4,6 +4,12 @@ This file describes the procedure I take during my Arch installations to set up 
 
 ## Preliminary setup
 
+Disable the annoying PC speaker for the installation:
+
+```
+rmmod pcspkr
+```
+
 Loading the proper keyboard layout for me:
 
 ```
@@ -159,7 +165,7 @@ systemctl enable NetworkManager.service
 systemctl start NetworkManager.service
 ```
 
-Then I use `wpa_supplicant`:
+Then I use `wpa_supplicant` (if things don't work out):
 
 ```
 wpa_cli
@@ -268,9 +274,12 @@ rm -rf paru
 
 ### Dev programmes
 
+#### Installation
 ```
-sudo pacman -S mariadb php nodejs npm postgresql sqlite
+sudo pacman -S mariadb php nodejs npm postgresql sqlite apache
 ```
+
+#### MariaDB configuration
 
 Configuring MariaDB (change the root password, disable remote access):
 
@@ -281,7 +290,9 @@ Configuring MariaDB (change the root password, disable remote access):
 # mysql_secure_installation
 ```
 
-Configuring PostreSQL:
+#### PostgreSQL configuration
+
+Configuring PostgreSQL:
 
 ```
 sudo chattr /var/lib/postgres/data
@@ -289,13 +300,17 @@ sudo -iu postgres
 initdb -D /var/lib/postgres/data
 ```
 
-Install and configure MongoDB:
+#### MongoDB configuration
+
+Install (through Paru) and configure MongoDB:
 
 ```
 paru mongodb-bin
 sudo systemctl enable mongodb.service
 sudo systemctl start mongodb.service
 ```
+
+#### PHP configuration
 
 Configuring PHP:
 
@@ -333,6 +348,8 @@ Install the extensions:
 sudo pacman -S php-pgsql php-sqlite php-gd
 ```
 
+#### NodeJS configuration
+
 We are going to enable global package installs in NodeJS for the current user:
 
 ```
@@ -340,6 +357,41 @@ We are going to enable global package installs in NodeJS for the current user:
 PATH="$HOME/.local/bin:$PATH"
 export npm_config_prefix="$HOME/.local"
 ```
+
+Next, it is a good idea to configure Apache HTTP Server.
+
+```
+sudo systemctl enable httpd.service
+sudo systemctl start httpd.service
+```
+
+```
+[/etc/httpd/conf/httpd.conf]
+...
+Listen 127.0.0.1:80
+...
+ServerAdmin my.email@gmail.com
+```
+
+We are going to bind PHP to the Apache server.
+
+```
+sudo pacman -S php-apache
+```
+
+```
+[/etc/httpd/conf/httpd.conf]
+#LoadModule mpm_event_module modules/mod_mpm_event.so
+...
+LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
+...
+LoadModule php_module modules/libphp.so
+AddHandler php-script .php
+...
+Include conf/extra/php_module.conf
+```
+
+Place each new line at the end of the respective file section.
 
 ### Wallpapers
 

@@ -358,6 +358,8 @@ PATH="$HOME/.local/bin:$PATH"
 export npm_config_prefix="$HOME/.local"
 ```
 
+#### Apache HTTP Server
+
 Next, it is a good idea to configure Apache HTTP Server.
 
 ```
@@ -392,6 +394,14 @@ Include conf/extra/php_module.conf
 ```
 
 Place each new line at the end of the respective file section.
+
+#### VirtualBox
+
+```
+sudo pacman -S virtualbox-host-modules-arch
+```
+
+(TODO: needs finishing)
 
 ### Wallpapers
 

@@ -16,11 +16,13 @@ Loading the proper keyboard layout for me:
 loadkeys uk
 ```
 
-I make sure to verify my current boot mode is UEFI
+I make sure to verify my current boot mode is UEFI:
 
 ```
 ls /sys/firmware/efi/efivars
 ```
+
+The output should not be empty.
 
 Next, I connect to my WiFi using:
 
@@ -83,7 +85,7 @@ mount /dev/root_partition /mnt
 Many packages are important to be able to bootstrap my new Arch install:
 
 ```
-pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light
+pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light ncdu
 ```
 
 Afterwards, I generate the `fstab` file:

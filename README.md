@@ -278,7 +278,7 @@ rm -rf paru
 
 #### Installation
 ```
-sudo pacman -S mariadb php nodejs npm postgresql sqlite apache
+sudo pacman -S mariadb php nodejs npm postgresql sqlite apache composer
 ```
 
 #### MariaDB configuration

@@ -85,7 +85,7 @@ mount /dev/root_partition /mnt
 Many packages are important to be able to bootstrap my new Arch install:
 
 ```
-pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light ncdu
+pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light ncdu neofetch
 ```
 
 Afterwards, I generate the `fstab` file:
@@ -425,6 +425,7 @@ Now we are going to install the K Desktop Enviroment (select Noto Fonts, and `en
 ```
 sudo pacman -S plasma
 sudo pacman -S noto-fonts
+sudo pacman -S noto-fonts-cjk
 sudo pacman -S kde-applications
 ```
 

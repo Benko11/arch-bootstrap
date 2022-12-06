@@ -1,0 +1,5 @@
+#!/usr/bin/zsh
+
+name=$(echo "$1" | cut -f 1 -d '.')
+mkdir -p pdf
+pandoc $name.md -o pdf/$1.pdf

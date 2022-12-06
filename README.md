@@ -1,10 +1,10 @@
 # Arch Bootstrap
 
-This file describes the procedure I take during my Arch installations to set up my computer just the way I'd like. Inspiration is garnered mainly from Arch Wiki and other Internet sources.
+This guide aims to describe the procedures I take during my Arch installations to set up my computer just the way I'd like. Inspiration is garnered mainly from Arch Wiki and other Internet sources. Shoutout to [fanoplanes](https://github.com/fanoplanes/) for getting me into this.
 
 ## Preliminary setup
 
-Disable the annoying PC speaker for the installation:
+Disable the annoying PC speaker during the installation:
 
 ```
 rmmod pcspkr
@@ -253,7 +253,7 @@ fail_interval = 900
 unlock_time = 3600
 ```
 
-I am going to disable the annoying PC speakers:
+I am going to disable the annoying PC speakers (this time on the installed system):
 
 ```
 # rmmod pcspkr
@@ -429,10 +429,11 @@ Include conf/extra/php_module.conf
 
 Place each new line at the end of the respective file section.
 
-### Wallpapers
+### Wallpapers and avatars
 
 ```
 git clone https://gitea.com/benko11/wallpapers
+git clone https://gitea.com/benko11/avatars
 ```
 
 ### More applications
@@ -531,8 +532,12 @@ EndSection
 
 ### Cleaning up
 
-It is time to remove some extraneous packages I don't use, but were installed in previous package groups.
+It is time to remove some extraneous packages I don't use, but were installed in previous package groups. (This may be subject to change.)
 
 ```
 sudo pacman -Rs akregator artikulate blinken bomber bovo cantor cervisia discover granatier juk k3b kaddressbook kajongg kalarm kalgebra kalzium kanagram kapman kapptemplate katomic kblackbox kblocks kbounce kbreakout kbruch kcachegrind itinerary kdevelop-php kdevelop kdf kfloppy kfourinline kgeography kget kgoldrunner khangman khelpcenter kig kigo killbots kimagemapeditor kiriki kiten kjumpingcube klettres klickety kmahjongg kmines kmouth knetwalk knights kolf kollision klines kompare konquest kontact kontrast konversation kopete korganizer kpat kreversi krdc krfb kruler kshisen ksirk ksnakeduel kspaceduel ksquares ksudoku kteatime ktimer ktouch kturtle kubrick kwordquiz lokalize lskat marble minuet knavalbattle palapeli parley picmi ktuberling rocs skanlite skanpage step sweeper yakuake zanshin umbrello telepathy-kde-contact-list kamoso telepathy-kde-text-ui kdiamond ktorrent ark dragon cantor kmail kmail-account-wizard kdepim-addons akonadi-import-wizard kwalletmanager pim-data-exporter pim-sieve-editor kalendar knotes akonadiconsole akonadi-calendar-tools pimcommon mailcommon
 ```
+
+## Miscellaneous
+
+After this, the system is ready to go. It is assumed that this guide is performed solely in the terminal, until a restart when the system should boot up nicely to a GUI. KDE and XFCE environments are still customized, but that is not covered here. KDE provides me a modern Mac-like experience, whereas XFCE keeps a nice retro design.

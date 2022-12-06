@@ -275,6 +275,7 @@ rm -rf paru
 ### Dev programmes
 
 #### Installation
+
 ```
 sudo pacman -S mariadb php nodejs npm postgresql sqlite apache
 ```
@@ -463,5 +464,12 @@ Section "InputClass"
     Option "NaturalScrolling" "true"
     Driver "libinput"
 EndSection
+```
 
+### Cleaning up
+
+It is time to remove some extraneous packages I don't use, but were installed in previous package groups.
+
+```
+sudo pacman -Rs akregator artikulate blinken bomber bovo cantor cervisia discover granatier juk k3b kaddressbook kajongg kalarm kalgebra kalzium kanagram kapman kapptemplate katomic kblackbox kblocks kbounce kbreakout kbruch kcachegrind itinerary kdevelop-php kdevelop kdf kfloppy kfourinline kgeography kget kgoldrunner khangman khelpcenter kig kigo killbots kimagemapeditor kiriki kiten kjumpingcube klettres klickety kmahjongg kmines kmouth knetwalk knights kolf kollision klines kolourpaint kompare konquest kontact kontrast konversation kopete korganizer kpat kreversi krdc krfb kruler kshisen ksirk ksnakeduel kspaceduel ksquares ksudoku kteatime ktimer ktouch kturtle kubrick kwordquiz lokalize lskat marble minuet knavalbattle palapeli parley picmi ktuberling rocs skanlite skanpage step sweeper yakuake zanshin umbrello telepathy-kde-contact-list kamoso telepathy-kde-text-ui kdiamond
 ```

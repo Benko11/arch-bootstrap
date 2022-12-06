@@ -449,7 +449,7 @@ paru vscode # chaotic-aur/visual-studio-code-bin
 paru microsoft-edge # chaotic-aur/microsoft-edge-stable-bin
 paru tor-browser # chaotic-aur/tor-browser
 paru aqemu # aur/aqemu
-paru 1 # chaotic-aur/archlinux-appstream-data-pamac
+paru pamac # chaotic-aur/archlinux-appstream-data-pamac
 ```
 
 ### Graphical setup

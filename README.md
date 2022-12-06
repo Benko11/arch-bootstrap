@@ -189,6 +189,7 @@ Afterwards, I set up `git`:
 git config --global user.name "Benjamin Bergstrom"
 git config --global user.email "my.email@gmail.com"
 git config --global init.defaultBranch main
+git config --global core.editor "vim"
 ```
 
 Then I clone this document:

@@ -85,11 +85,7 @@ mount /dev/root_partition /mnt
 Many packages are important to be able to bootstrap my new Arch install:
 
 ```
-<<<<<<< HEAD
 pacstrap /mnt base base-devel linux linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light pandoc build-essential linux-headers neofetch ncdu htop btop qemu-full beep bluez bluez-utils
-=======
-pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light ncdu neofetch
->>>>>>> 8801fa0828849f6b0ae946f43611025e7d834238
 ```
 
 Afterwards, I generate the `fstab` file:
@@ -468,21 +464,14 @@ cp /etc/X11/xinit/xinitrc ~/.xinitrc
 Now we are going to install the K Desktop Enviroment (select Noto Fonts, and `eng` option):
 
 ```
-<<<<<<< HEAD
 sudo pacman -S plasma-desktop
-sudo pacman -S noto-fonts noto-fonts-emoji
+sudo pacman -S noto-fonts noto-fonts-emoji noto-fonts-cjk
 <!-- sudo pacman -S kde-applications -->
 sudo pacman -S xfce4 xfce4-goodies
 cd
 wget https://github.com/grassmunk/Chicago95/archive/refs/tags/v3.0.1.zip
 unzip v3.0.1.zip -d v3.0.1
 sudo pacman -S viewnior
-=======
-sudo pacman -S plasma
-sudo pacman -S noto-fonts
-sudo pacman -S noto-fonts-cjk
-sudo pacman -S kde-applications
->>>>>>> 8801fa0828849f6b0ae946f43611025e7d834238
 ```
 
 (`xorg-xinit` enables the `startx` command.)

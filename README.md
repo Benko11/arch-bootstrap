@@ -83,7 +83,7 @@ mount /dev/root_partition /mnt
 Many packages are important to be able to bootstrap my new Arch install:
 
 ```
-pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light
+pacstrap /mnt base base-devel linux linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light pandoc build-essential linux-headers neofetch ncdu htop btop qemu-full beep bluez bluez-utils
 ```
 
 Afterwards, I generate the `fstab` file:
@@ -154,7 +154,7 @@ reboot
 
 ## Post-install
 
-We are now able to boot into Arch Linux, and use the `root` user for our tinkering. We do not have any other users or GUI installed.
+We are now able to boot into Arch Linux, and use the `root` user for our tinkering. We not have any other users or GUI installed.
 
 ### Connect to the Internet
 
@@ -179,7 +179,7 @@ wpa_cli
 
 Then I enter `nmtui` and connect to the network.
 
-### Git and the documentation
+### Git and the documentation (this guide)
 
 Afterwards, I set up `git`:
 
@@ -272,7 +272,26 @@ cd
 rm -rf paru
 ```
 
-### Dev programmes
+### Chaotic AUR
+
+Enter `root` user and run:
+
+```
+pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
+pacman-key --lsign-key FBA220DFC880C036
+pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+```
+
+Edit `/etc/pacman.conf` (add to the end of the file):
+
+```
+Append (adding to the end of the file) to /etc/pacman.conf:
+
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist
+```
+
+### Dev programmes/tools
 
 #### Installation
 
@@ -346,7 +365,7 @@ zend_extension=xdebug
 Install the extensions:
 
 ```
-sudo pacman -S php-pgsql php-sqlite php-gd
+sudo pacman -S php-pgsql php-sqlite php-gd phpmyadmin
 ```
 
 #### NodeJS configuration
@@ -357,6 +376,18 @@ We are going to enable global package installs in NodeJS for the current user:
 [~/.zshrc]
 PATH="$HOME/.local/bin:$PATH"
 export npm_config_prefix="$HOME/.local"
+```
+
+#### Java configuration
+
+```
+sudo pacman -S jre-openjdk jdk-openjdk javac
+```
+
+#### Miscellaneous
+
+```
+sudo pacman -S redis
 ```
 
 #### Apache HTTP Server
@@ -396,18 +427,27 @@ Include conf/extra/php_module.conf
 
 Place each new line at the end of the respective file section.
 
-#### VirtualBox
-
-```
-sudo pacman -S virtualbox-host-modules-arch
-```
-
-(TODO: needs finishing)
-
 ### Wallpapers
 
 ```
 git clone https://gitea.com/benko11/wallpapers
+```
+
+### More applications
+
+These are graphical applications that are considered necessary:
+
+```
+sudo pacman -S qbittorrent vlc abiword calibre latex-mk steam file-roller dosbox dosbox-x discord pamac ghostwriter
+```
+
+```
+paru procyon # aur/procyon-decompiler
+paru vscode # chaotic-aur/visual-studio-code-bin
+paru microsoft-edge # chaotic-aur/microsoft-edge-stable-bin
+paru tor-browser # chaotic-aur/tor-browser
+paru aqemu # aur/aqemu
+paru 1 # chaotic-aur/archlinux-appstream-data-pamac
 ```
 
 ### Graphical setup
@@ -422,9 +462,14 @@ cp /etc/X11/xinit/xinitrc ~/.xinitrc
 Now we are going to install the K Desktop Enviroment (select Noto Fonts, and `eng` option):
 
 ```
-sudo pacman -S plasma
-sudo pacman -S noto-fonts
-sudo pacman -S kde-applications
+sudo pacman -S plasma-desktop
+sudo pacman -S noto-fonts noto-fonts-emoji
+<!-- sudo pacman -S kde-applications -->
+sudo pacman -S xfce4 xfce4-goodies
+cd
+wget https://github.com/grassmunk/Chicago95/archive/refs/tags/v3.0.1.zip
+unzip v3.0.1.zip -d v3.0.1
+sudo pacman -S viewnior
 ```
 
 (`xorg-xinit` enables the `startx` command.)
@@ -445,6 +490,22 @@ Next, I make sure to update the `.xinitrc` file:
 ...
 #exec xterm ...
 exec startplasma-x11
+```
+
+Set up desktop environments (adding fonts, removing backgrounds):
+
+```
+sudo rm -rf /usr/share/backgrounds/xfce
+sudo pacman -S network-manager-applet
+sudo rm -rf /usr/share/wallpapers
+sudo cp -r ~/arch-bootstrap/fonts/* /usr/local/share/fonts
+fc-cache
+```
+
+More graphics drivers:
+
+```
+sudo pacman -S --needed lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader
 ```
 
 ### Touchpad settings
@@ -471,5 +532,5 @@ EndSection
 It is time to remove some extraneous packages I don't use, but were installed in previous package groups.
 
 ```
-sudo pacman -Rs akregator artikulate blinken bomber bovo cantor cervisia discover granatier juk k3b kaddressbook kajongg kalarm kalgebra kalzium kanagram kapman kapptemplate katomic kblackbox kblocks kbounce kbreakout kbruch kcachegrind itinerary kdevelop-php kdevelop kdf kfloppy kfourinline kgeography kget kgoldrunner khangman khelpcenter kig kigo killbots kimagemapeditor kiriki kiten kjumpingcube klettres klickety kmahjongg kmines kmouth knetwalk knights kolf kollision klines kolourpaint kompare konquest kontact kontrast konversation kopete korganizer kpat kreversi krdc krfb kruler kshisen ksirk ksnakeduel kspaceduel ksquares ksudoku kteatime ktimer ktouch kturtle kubrick kwordquiz lokalize lskat marble minuet knavalbattle palapeli parley picmi ktuberling rocs skanlite skanpage step sweeper yakuake zanshin umbrello telepathy-kde-contact-list kamoso telepathy-kde-text-ui kdiamond
+sudo pacman -Rs akregator artikulate blinken bomber bovo cantor cervisia discover granatier juk k3b kaddressbook kajongg kalarm kalgebra kalzium kanagram kapman kapptemplate katomic kblackbox kblocks kbounce kbreakout kbruch kcachegrind itinerary kdevelop-php kdevelop kdf kfloppy kfourinline kgeography kget kgoldrunner khangman khelpcenter kig kigo killbots kimagemapeditor kiriki kiten kjumpingcube klettres klickety kmahjongg kmines kmouth knetwalk knights kolf kollision klines kompare konquest kontact kontrast konversation kopete korganizer kpat kreversi krdc krfb kruler kshisen ksirk ksnakeduel kspaceduel ksquares ksudoku kteatime ktimer ktouch kturtle kubrick kwordquiz lokalize lskat marble minuet knavalbattle palapeli parley picmi ktuberling rocs skanlite skanpage step sweeper yakuake zanshin umbrello telepathy-kde-contact-list kamoso telepathy-kde-text-ui kdiamond ktorrent ark dragon cantor kmail kmail-account-wizard kdepim-addons akonadi-import-wizard kwalletmanager pim-data-exporter pim-sieve-editor kalendar knotes akonadiconsole akonadi-calendar-tools pimcommon mailcommon
 ```

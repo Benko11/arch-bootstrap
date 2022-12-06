@@ -16,11 +16,13 @@ Loading the proper keyboard layout for me:
 loadkeys uk
 ```
 
-I make sure to verify my current boot mode is UEFI
+I make sure to verify my current boot mode is UEFI:
 
 ```
 ls /sys/firmware/efi/efivars
 ```
+
+The output should not be empty.
 
 Next, I connect to my WiFi using:
 
@@ -83,7 +85,11 @@ mount /dev/root_partition /mnt
 Many packages are important to be able to bootstrap my new Arch install:
 
 ```
+<<<<<<< HEAD
 pacstrap /mnt base base-devel linux linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light pandoc build-essential linux-headers neofetch ncdu htop btop qemu-full beep bluez bluez-utils
+=======
+pacstrap /mnt base base-devel linux-zen linux-firmware btrfs-progs networkmanager vim sudo man-db man-pages texinfo zsh grub efibootmgr amd-ucode gcc gdb ntfs-3g git wget bat light ncdu neofetch
+>>>>>>> 8801fa0828849f6b0ae946f43611025e7d834238
 ```
 
 Afterwards, I generate the `fstab` file:
@@ -296,7 +302,7 @@ Include = /etc/pacman.d/chaotic-mirrorlist
 #### Installation
 
 ```
-sudo pacman -S mariadb php nodejs npm postgresql sqlite apache
+sudo pacman -S mariadb php nodejs npm postgresql sqlite apache composer
 ```
 
 #### MariaDB configuration
@@ -462,6 +468,7 @@ cp /etc/X11/xinit/xinitrc ~/.xinitrc
 Now we are going to install the K Desktop Enviroment (select Noto Fonts, and `eng` option):
 
 ```
+<<<<<<< HEAD
 sudo pacman -S plasma-desktop
 sudo pacman -S noto-fonts noto-fonts-emoji
 <!-- sudo pacman -S kde-applications -->
@@ -470,6 +477,12 @@ cd
 wget https://github.com/grassmunk/Chicago95/archive/refs/tags/v3.0.1.zip
 unzip v3.0.1.zip -d v3.0.1
 sudo pacman -S viewnior
+=======
+sudo pacman -S plasma
+sudo pacman -S noto-fonts
+sudo pacman -S noto-fonts-cjk
+sudo pacman -S kde-applications
+>>>>>>> 8801fa0828849f6b0ae946f43611025e7d834238
 ```
 
 (`xorg-xinit` enables the `startx` command.)
